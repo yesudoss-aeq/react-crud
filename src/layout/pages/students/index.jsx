@@ -16,7 +16,7 @@ const StudentStatus = () => {
                 <th>Name</th>
                 <th>Age</th>
                 <th>OSS</th>
-                <th>PYTHON</th>
+                <th>Python</th>
                 <th>Cloud Computing</th>
               </tr>
             </thead>
@@ -32,9 +32,9 @@ const StudentStatus = () => {
           </table>
         </div>
       </div>
-      <div className={styles.backdrop}>
+      {/* <div className={styles.backdrop}>
         <form action=""></form>
-      </div>
+      </div> */}
     </>
   );
 };

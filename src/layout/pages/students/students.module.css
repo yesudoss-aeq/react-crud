@@ -1,0 +1,58 @@
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  /* background-color: aqua; */
+}
+
+.heading h1 {
+  font-size: 30px;
+  color: rgb(159, 94, 9);
+}
+
+.heading button {
+  background-color: rgb(236, 102, 102);
+  border: none;
+  outline: none;
+  height: 30px;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: white;
+}
+.heading button:hover {
+  background-color: green;
+  cursor: pointer;
+}
+.heading {
+  width: 100%;
+  height: 50px;
+  /* background-color: red; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.tableContainer table {
+  border-collapse: collapse;
+  width: 100%;
+}
+.tableContainer th,
+.tableContainer td {
+  border: 1px solid black;
+  text-align: left;
+  padding: 8px;
+}
+
+.backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #0000007a;
+  backdrop-filter: blur(4px);
+}

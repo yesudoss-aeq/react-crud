@@ -6,8 +6,6 @@ import About from "./about";
 import styles from "./pages.module.css";
 
 const Page = () => {
-  const [name, setName] = useState("sample");
-
   return (
     <div className={styles.pagesContainer}>
       <div className={styles.innerContent}>
@@ -17,8 +15,6 @@ const Page = () => {
           <Route path="about" element={<About />} />
           {/* <Route path="/*" element={<About />} /> */}
         </Routes>
-
-        <h1 onClick={() => setName("changed")}>{name}</h1>
       </div>
     </div>
   );

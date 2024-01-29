@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import Home from "../home";
 import About from "../about";
 import styles from "./pages.module.css";
-import StudentStatus from "./students";
+import StudentStatus from "../students";
 
 const Page = () => {
   return (

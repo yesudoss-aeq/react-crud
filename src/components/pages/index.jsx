@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import Home from "./home";
 import { Route, Routes } from "react-router-dom";
-import StudentStatus from "./students";
-import About from "./about";
+import Home from "../home";
+import About from "../about";
 import styles from "./pages.module.css";
+import StudentStatus from "./students";
 
 const Page = () => {
   return (

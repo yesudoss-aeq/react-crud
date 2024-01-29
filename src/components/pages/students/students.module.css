@@ -55,4 +55,23 @@
   width: 100%;
   background-color: #0000007a;
   backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.formContainer {
+  background-color: #ac7f7f;
+  width: 300px;
+  padding: 30px;
+  border-radius: 30px;
+}
+
+.formContainer form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.formContainer form label {
+  color: aliceblue;
+  font-weight: 600;
 }

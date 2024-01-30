@@ -4,6 +4,7 @@ import styles from "./students.module.css";
 const StudentStatus = () => {
   const [table, setTable] = useState([
     { name: "anbu", age: 30, oss: 50, python: 50, cloud: 50 },
+    { name: "kjhfjdsjfsaf", age: 30, oss: 50, python: 50, cloud: 50 },
   ]);
   const [form, setForm] = useState(false);
   const [name, setName] = useState("");
@@ -11,8 +12,40 @@ const StudentStatus = () => {
   const [oss, setOss] = useState("");
   const [python, setPyton] = useState("");
   const [cloud, setCloud] = useState("");
+  const [formStatus, setFormStatus] = useState("submit");
 
-  const submitHandler = () => {};
+  const reset = () => {
+    setName("");
+    setAge("");
+    setOss("");
+    setCloud("");
+    setPyton("");
+  };
+
+  const submitHandler = () => {
+    const data = {
+      name: name,
+      age: Age,
+      oss: oss,
+      python: python,
+      cloud: cloud,
+    };
+    setTable([...table, data]);
+    setForm(false);
+    reset();
+  };
+
+  const updateHandler = (index) => {
+    setFormStatus("update");
+    const tableData = [...table];
+    const upadteObject = tableData[index];
+    setName(upadteObject.name);
+    setAge(upadteObject.age);
+    setOss(upadteObject.oss);
+    setPyton(upadteObject.python);
+    setCloud(upadteObject.cloud);
+    setForm(true);
+  };
 
   return (
     <>
@@ -30,6 +63,7 @@ const StudentStatus = () => {
                 <th>OSS</th>
                 <th>Python</th>
                 <th>Cloud Computing</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -40,6 +74,10 @@ const StudentStatus = () => {
                   <td>{val.oss}</td>
                   <td>{val.python}</td>
                   <td>{val.cloud}</td>
+                  <td>
+                    <button onClick={() => updateHandler(i)}>Update</button>
+                    <button>Delete</button>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -47,7 +85,14 @@ const StudentStatus = () => {
         </div>
       </div>
       {form && (
-        <div className={styles.backdrop}>
+        <>
+          <div
+            onClick={() => {
+              setForm(false);
+              reset();
+            }}
+            className={styles.backdrop}
+          ></div>
           <div className={styles.formContainer}>
             <form
               action=""
@@ -89,7 +134,7 @@ const StudentStatus = () => {
               <button type="submit">Submit</button>
             </form>
           </div>
-        </div>
+        </>
       )}
     </>
   );

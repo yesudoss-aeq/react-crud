@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styles from "./students.module.css";
+import UserForm from "../form";
 
 const StudentStatus = () => {
   const [table, setTable] = useState([
@@ -13,6 +14,7 @@ const StudentStatus = () => {
   const [python, setPyton] = useState("");
   const [cloud, setCloud] = useState("");
   const [formStatus, setFormStatus] = useState("submit");
+  const [updateIndex, setUpdateIndex] = useState(null);
 
   //this is new line
 
@@ -32,12 +34,22 @@ const StudentStatus = () => {
       python: python,
       cloud: cloud,
     };
-    setTable([...table, data]);
+    if (formStatus === "submit") {
+      setTable([...table, data]);
+    }
+    if (formStatus === "update") {
+      const myArr = [...table];
+      myArr[updateIndex] = data;
+      setTable(myArr);
+      setFormStatus("submit");
+      setUpdateIndex(null);
+    }
     setForm(false);
     reset();
   };
 
   const updateHandler = (index) => {
+    setUpdateIndex(index);
     setFormStatus("update");
     const tableData = [...table];
     const upadteObject = tableData[index];
@@ -47,6 +59,12 @@ const StudentStatus = () => {
     setPyton(upadteObject.python);
     setCloud(upadteObject.cloud);
     setForm(true);
+  };
+
+  const deleteHandler = (index) => {
+    const data = [...table];
+    data.splice(index, 1);
+    setTable(data);
   };
 
   return (
@@ -78,7 +96,7 @@ const StudentStatus = () => {
                   <td>{val.cloud}</td>
                   <td>
                     <button onClick={() => updateHandler(i)}>Update</button>
-                    <button>Delete</button>
+                    <button onClick={() => deleteHandler(i)}>Delete</button>
                   </td>
                 </tr>
               ))}
@@ -133,7 +151,7 @@ const StudentStatus = () => {
                 type="text"
                 value={cloud}
               />
-              <button type="submit">Submit</button>
+              <button type="submit">{formStatus}</button>
             </form>
           </div>
         </>

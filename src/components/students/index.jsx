@@ -1,12 +1,18 @@
 import React, { useState } from "react";
 import styles from "./students.module.css";
 import UserForm from "../form";
+import UserTable from "../table";
 
 const StudentStatus = () => {
   const [table, setTable] = useState([
     { name: "anbu", age: 30, oss: 50, python: 50, cloud: 50 },
     { name: "kjhfjdsjfsaf", age: 30, oss: 50, python: 50, cloud: 50 },
   ]);
+  const [test, setTest] = useState([
+    { name: "anbu arockia doss", age: 30, oss: 50, python: 50, cloud: 50 },
+    { name: "Arun", age: 30, oss: 50, python: 50, cloud: 50 },
+  ]);
+
   const [form, setForm] = useState(false);
   const [name, setName] = useState("");
   const [Age, setAge] = useState("");
@@ -69,92 +75,30 @@ const StudentStatus = () => {
 
   return (
     <>
-      <div className={styles.container}>
-        <div className={styles.heading}>
-          <h1>Students Detail</h1>
-          <button onClick={() => setForm(true)}>Add New</button>
-        </div>
-        <div className={styles.tableContainer}>
-          <table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Age</th>
-                <th>OSS</th>
-                <th>Python</th>
-                <th>Cloud Computing</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {table.map((val, i) => (
-                <tr key={i}>
-                  <td>{val.name}</td>
-                  <td>{val.age}</td>
-                  <td>{val.oss}</td>
-                  <td>{val.python}</td>
-                  <td>{val.cloud}</td>
-                  <td>
-                    <button onClick={() => updateHandler(i)}>Update</button>
-                    <button onClick={() => deleteHandler(i)}>Delete</button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+      <UserTable
+        setForm={setForm}
+        table={table}
+        updateHandler={updateHandler}
+        deleteHandler={deleteHandler}
+      />
+
       {form && (
-        <>
-          <div
-            onClick={() => {
-              setForm(false);
-              reset();
-            }}
-            className={styles.backdrop}
-          ></div>
-          <div className={styles.formContainer}>
-            <form
-              action=""
-              onSubmit={(e) => {
-                e.preventDefault();
-                submitHandler();
-              }}
-            >
-              <label htmlFor="">Name</label>
-              <input
-                onChange={(e) => setName(e.target.value)}
-                type="text"
-                value={name}
-              />
-              <label htmlFor="">Age</label>
-              <input
-                onChange={(e) => setAge(e.target.value)}
-                type="text"
-                value={Age}
-              />
-              <label htmlFor="">OSS</label>
-              <input
-                onChange={(e) => setOss(e.target.value)}
-                type="text"
-                value={oss}
-              />
-              <label htmlFor="">Python</label>
-              <input
-                onChange={(e) => setPyton(e.target.value)}
-                type="text"
-                value={python}
-              />
-              <label htmlFor="">Cloud Computing</label>
-              <input
-                onChange={(e) => setCloud(e.target.value)}
-                type="text"
-                value={cloud}
-              />
-              <button type="submit">{formStatus}</button>
-            </form>
-          </div>
-        </>
+        <UserForm
+          setForm={setForm}
+          reset={reset}
+          submitHandler={submitHandler}
+          name={name}
+          setName={setName}
+          Age={Age}
+          setAge={setAge}
+          oss={oss}
+          setOss={setOss}
+          python={python}
+          setPyton={setPyton}
+          cloud={cloud}
+          setCloud={setCloud}
+          formStatus={formStatus}
+        />
       )}
     </>
   );

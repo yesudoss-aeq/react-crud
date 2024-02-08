@@ -1,16 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./students.module.css";
 import UserForm from "../form";
 import UserTable from "../table";
 
 const StudentStatus = () => {
   const [table, setTable] = useState([
-    { name: "anbu", age: 30, oss: 50, python: 50, cloud: 50 },
-    { name: "kjhfjdsjfsaf", age: 30, oss: 50, python: 50, cloud: 50 },
-  ]);
-  const [test, setTest] = useState([
-    { name: "anbu arockia doss", age: 30, oss: 50, python: 50, cloud: 50 },
-    { name: "Arun", age: 30, oss: 50, python: 50, cloud: 50 },
+    // { name: "anbu", age: 30, oss: 50, python: 50, cloud: 50 },
   ]);
 
   const [form, setForm] = useState(false);
@@ -22,7 +17,19 @@ const StudentStatus = () => {
   const [formStatus, setFormStatus] = useState("submit");
   const [updateIndex, setUpdateIndex] = useState(null);
 
+  const [updateId, setUpdateId] = useState(null);
+
+  const [tableLoading, setTableLoading] = useState(true);
+
   //this is new line
+
+  //fetch operation
+  const fetchData = async () => {
+    const response = await fetch("http://localhost:5000/info");
+    const data = await response.json();
+    setTable(data);
+    setTableLoading(false);
+  };
 
   const reset = () => {
     setName("");
@@ -38,24 +45,45 @@ const StudentStatus = () => {
       age: Age,
       oss: oss,
       python: python,
-      cloud: cloud,
+      cloudComputing: cloud,
     };
     if (formStatus === "submit") {
-      setTable([...table, data]);
+      // setTable([...table, data]);
+      fetch("http://localhost:5000/info", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      }).then((res) => {
+        if (res.ok) {
+          fetchData();
+        }
+      });
     }
     if (formStatus === "update") {
-      const myArr = [...table];
-      myArr[updateIndex] = data;
-      setTable(myArr);
+      fetch(`http://localhost:5000/info/${updateId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      }).then((res) => {
+        if (res.ok) {
+          fetchData();
+        }
+      });
+
+      // const myArr = [...table];
+      // myArr[updateIndex] = data;
+      // setTable(myArr);
       setFormStatus("submit");
       setUpdateIndex(null);
+      setUpdateId(null);
     }
     setForm(false);
     reset();
   };
 
-  const updateHandler = (index) => {
+  const updateHandler = (index, id) => {
     setUpdateIndex(index);
+    setUpdateId(id);
     setFormStatus("update");
     const tableData = [...table];
     const upadteObject = tableData[index];
@@ -67,20 +95,37 @@ const StudentStatus = () => {
     setForm(true);
   };
 
-  const deleteHandler = (index) => {
-    const data = [...table];
-    data.splice(index, 1);
-    setTable(data);
+  const deleteHandler = (index, id) => {
+    fetch(`http://localhost:5000/info/${id}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    }).then((res) => {
+      if (res.ok) {
+        fetchData();
+      }
+    });
+
+    // const data = [...table];
+    // data.splice(index, 1);
+    // setTable(data);
   };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <>
-      <UserTable
-        setForm={setForm}
-        table={table}
-        updateHandler={updateHandler}
-        deleteHandler={deleteHandler}
-      />
+      {tableLoading ? (
+        <h1>Loading...</h1>
+      ) : (
+        <UserTable
+          setForm={setForm}
+          table={table}
+          updateHandler={updateHandler}
+          deleteHandler={deleteHandler}
+        />
+      )}
 
       {form && (
         <UserForm

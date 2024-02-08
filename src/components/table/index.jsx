@@ -27,10 +27,14 @@ const UserTable = ({ table, setForm, updateHandler, deleteHandler }) => {
                 <td>{val.age}</td>
                 <td>{val.oss}</td>
                 <td>{val.python}</td>
-                <td>{val.cloud}</td>
+                <td>{val.cloudComputing}</td>
                 <td>
-                  <button onClick={() => updateHandler(i)}>Update</button>
-                  <button onClick={() => deleteHandler(i)}>Delete</button>
+                  <button onClick={() => updateHandler(i, val._id)}>
+                    Update
+                  </button>
+                  <button onClick={() => deleteHandler(i, val._id)}>
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}

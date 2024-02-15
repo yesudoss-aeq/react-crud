@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./students.module.css";
 import UserForm from "../form";
 import UserTable from "../table";
+import Wrapper from "../wrapper";
 
 const StudentStatus = () => {
   const [table, setTable] = useState([
@@ -20,15 +21,26 @@ const StudentStatus = () => {
   const [updateId, setUpdateId] = useState(null);
 
   const [tableLoading, setTableLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const [crudLoading, setCrudLoading] = useState(false);
 
   //this is new line
 
   //fetch operation
   const fetchData = async () => {
-    const response = await fetch("http://localhost:5000/info");
-    const data = await response.json();
-    setTable(data);
-    setTableLoading(false);
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_ENDPOINT}/info`
+      );
+      const data = await response.json();
+      setTable(data);
+      setTableLoading(false);
+    } catch (err) {
+      console.log("err", err);
+      if (err) {
+        setError(true);
+      }
+    }
   };
 
   const reset = () => {
@@ -47,26 +59,34 @@ const StudentStatus = () => {
       python: python,
       cloudComputing: cloud,
     };
+
     if (formStatus === "submit") {
+      setCrudLoading(true);
       // setTable([...table, data]);
-      fetch("http://localhost:5000/info", {
+      fetch(`${process.env.REACT_APP_BACKEND_ENDPOINT}/info`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
-      }).then((res) => {
-        if (res.ok) {
-          fetchData();
-        }
-      });
+      })
+        .then((res) => {
+          if (res.ok) {
+            fetchData();
+            setCrudLoading(false);
+          }
+        })
+        .catch((err) => console.log(err));
     }
     if (formStatus === "update") {
-      fetch(`http://localhost:5000/info/${updateId}`, {
+      setCrudLoading(true);
+
+      fetch(`${process.env.REACT_APP_BACKEND_ENDPOINT}/info/${updateId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       }).then((res) => {
         if (res.ok) {
           fetchData();
+          setCrudLoading(false);
         }
       });
 
@@ -96,12 +116,15 @@ const StudentStatus = () => {
   };
 
   const deleteHandler = (index, id) => {
-    fetch(`http://localhost:5000/info/${id}`, {
+    setCrudLoading(true);
+
+    fetch(`${process.env.REACT_APP_BACKEND_ENDPOINT}/info/${id}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
     }).then((res) => {
       if (res.ok) {
         fetchData();
+        setCrudLoading(false);
       }
     });
 
@@ -116,8 +139,13 @@ const StudentStatus = () => {
 
   return (
     <>
+      {crudLoading && (
+        <Wrapper>
+          <h1 style={{ color: "white" }}>Loading...</h1>
+        </Wrapper>
+      )}
       {tableLoading ? (
-        <h1>Loading...</h1>
+        <h1>{error ? "someting went wrong..." : "Loading..."}</h1>
       ) : (
         <UserTable
           setForm={setForm}

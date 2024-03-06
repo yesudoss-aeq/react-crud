@@ -13,7 +13,7 @@ const Page = () => {
           <Route path="/" index element={<Home />} />
           <Route path="students" element={<StudentStatus />} />
           <Route path="about" element={<About />} />
-          {/* <Route path="/*" element={<About />} /> */}
+          <Route path="/*" element={<div>No page found</div>} />
         </Routes>
       </div>
     </div>

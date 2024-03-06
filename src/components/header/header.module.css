@@ -6,15 +6,17 @@
   /* justify-content: space-around; */
   align-items: center;
   gap: 40px;
+  justify-content: space-between;
   padding-left: 30px;
+  padding-right: 30px;
 }
 
-.navbar > a {
+a {
   color: black;
   cursor: pointer;
   text-decoration: none;
 }
 
-.navbar > a:hover {
+a:hover {
   color: blue;
 }

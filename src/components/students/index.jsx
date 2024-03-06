@@ -3,8 +3,13 @@ import styles from "./students.module.css";
 import UserForm from "../form";
 import UserTable from "../table";
 import Wrapper from "../wrapper";
+import { useSelector } from "react-redux";
 
 const StudentStatus = () => {
+  const userId = useSelector((s) => s.user.userData);
+
+  console.log("userId", userId._id);
+
   const [table, setTable] = useState([
     // { name: "anbu", age: 30, oss: 50, python: 50, cloud: 50 },
   ]);
@@ -30,7 +35,7 @@ const StudentStatus = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_ENDPOINT}/info`
+        `${process.env.REACT_APP_BACKEND_ENDPOINT}/info?userId=${userId._id}`
       );
       const data = await response.json();
       setTable(data);
@@ -58,6 +63,7 @@ const StudentStatus = () => {
       oss: oss,
       python: python,
       cloudComputing: cloud,
+      author: userId._id,
     };
 
     if (formStatus === "submit") {
